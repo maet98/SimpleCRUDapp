@@ -9,6 +9,8 @@ import Phone from "./Components/phone/Phone";
 import {ToastProvider} from "react-toast-notifications"
 import { BrowserRouter, Route, Switch as Sw } from "react-router-dom";
 import Layout from "./Components/Layout/index"
+import ProjectList from "./Components/Project/ProjectList"
+import ProjectView from './Components/Project/ProjectView';
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
             </Route>
             <Route path="/phone">
               <Phone />
+            </Route>
+            <Route exact path="/project">
+              <ProjectList />
+            </Route>
+            <Route path="/project/:id">
+              <ProjectView />
             </Route>
             <Route>
               <h1>

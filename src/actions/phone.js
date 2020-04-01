@@ -1,11 +1,5 @@
 import api from "./api"
-
-export const ACTION_TYPES = {
-    CREATE: 'CREATE',
-    UPDATE: 'UPDATE',
-    DELETE: 'DELETE',
-    FETCH_ALL: 'FETCH_ALL',
-}
+import {ACTION_TYPES} from "./Actions_Types";
 
 export const fetchAll = () => dispatch =>
 {
@@ -13,7 +7,7 @@ export const fetchAll = () => dispatch =>
     .then(
         response =>{
             dispatch({
-                type: ACTION_TYPES.FETCH_ALL,
+                type: ACTION_TYPES.FETCH_ALL_PHONE,
                 payload: response.data
             })
         }
@@ -24,7 +18,7 @@ export const create = (data, onSuccess) => dispatch =>{
     api.phone().create(data)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.CREATE,
+            type: ACTION_TYPES.CREATE_PHONE,
             payload: res.data
         })
         onSuccess()
@@ -36,7 +30,7 @@ export const update = (id, data, onSuccess) => dispatch =>{
     api.phone().update(id,data)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.UPDATE,
+            type: ACTION_TYPES.UPDATE_PHONE,
             payload: {id,...data}
         })
         onSuccess()
@@ -48,7 +42,7 @@ export const Delete = (id, onSuccess) => dispatch =>{
     api.phone().delete(id)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.DELETE,
+            type: ACTION_TYPES.DELETE_PHONE,
             payload: id
         })
         onSuccess()

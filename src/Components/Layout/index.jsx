@@ -39,6 +39,9 @@ export default function ButtonAppBar() {
           <Link to="/phone">
               <Button color="white">phone</Button>
           </Link>
+          <Link to="/project">
+              <Button color="white">project</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

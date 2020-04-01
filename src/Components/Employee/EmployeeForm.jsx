@@ -60,7 +60,7 @@ const initialFieldValues ={
 }
 
 function EmployeeForm({classes,...props}) {
-    const {addToast} = useToasts;
+    const {addToast} = useToasts();
     const [countries,setCountries] = React.useState([]);
     const validate = (fieldValues = values) =>{
         let temp = {};

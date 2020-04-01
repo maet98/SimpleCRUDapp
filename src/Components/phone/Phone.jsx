@@ -1,6 +1,7 @@
 import React, {useState ,useEffect} from 'react'
 import PhoneForm from "./PhoneForm";
 import { connect } from 'react-redux'
+import {fetchAll as fetchAllEmployee} from "../../actions/employee";
 import {fetchAll, Delete} from "../../actions/phone";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -25,6 +26,8 @@ function Phone({classes,...props}) {
     
     useEffect(() =>{
         props.fetchAllPhone()
+        props.fetchAllEmployee()
+        console.log(props.PhoneList);
     }, [])
 
     const onDelete =id =>{
@@ -54,7 +57,9 @@ function Phone({classes,...props}) {
                             </TableHead>
                             <TableBody>
                                 {
+
                                     props.PhoneList.map((record, index) =>{
+                                        console.log(record);
                                         return (
                                             <TableRow key={index}>
                                                 <TableCell>{record.phone_type}</TableCell>
@@ -86,13 +91,15 @@ function Phone({classes,...props}) {
 
 const mapStateToProps = state =>{
     return {
-        PhoneList: state.phone.list
+        PhoneList: state.phone.list,
+        employeeList: state.employee.list 
     }
 }
 
 const mapActionToProps = {
     fetchAllPhone: fetchAll,
-    deletePhone: Delete
+    deletePhone: Delete,
+    fetchAllEmployee: fetchAllEmployee
 }
 
 export default connect(mapStateToProps,mapActionToProps)(withStyles(styles)(Phone));

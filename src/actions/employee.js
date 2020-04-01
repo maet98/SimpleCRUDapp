@@ -12,7 +12,7 @@ export const fetchAll = () => dispatch =>
     .then(
         response =>{
             dispatch({
-                type: ACTION_TYPES.FETCH_ALL,
+                type: ACTION_TYPES.FETCH_ALL_EMPLOYEE,
                 payload: response.data
             })
         }
@@ -24,7 +24,7 @@ export const create = (data, onSuccess) => dispatch =>{
     api.employee().create(data)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.CREATE,
+            type: ACTION_TYPES.CREATE_EMPLOYEE,
             payload: data
         })
         onSuccess()
@@ -36,7 +36,7 @@ export const update = (id, data, onSuccess) => dispatch =>{
     api.employee().update(id,data)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.UPDATE,
+            type: ACTION_TYPES.UPDATE_EMPLOYEE,
             payload: {id,...data}
         })
         onSuccess()
@@ -48,7 +48,7 @@ export const Delete = (id, onSuccess) => dispatch =>{
     api.employee().delete(id)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.DELETE,
+            type: ACTION_TYPES.DELETE_EMPLOYEE,
             payload: id
         })
         onSuccess()
