@@ -35,7 +35,7 @@ function ProjectList({classes,...props}) {
                 <ProjectForm {...({currentId,setCurrentId})}/>
             </Grid>
             <h3>List of Project:</h3>
-            <ProjectView projectList={props.projectList} {...({currentId,setCurrentId})} />
+            <ProjectView {...({currentId,setCurrentId})} />
             <Grid container spacing={3}>
                 <Grid item xs={14}>
                 </Grid>

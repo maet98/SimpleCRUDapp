@@ -5,23 +5,49 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {Button, ButtonGroup, Grid} from "@material-ui/core";
+import { ButtonGroup,InputLabel, Select, MenuItem, FormControl, Grid, TableContainer,Button,Table,TableCell,TableBody,TableRow,TableHead} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useToasts} from "react-toast-notifications";
 import {Delete} from "../../actions/project";
 import {connect} from "react-redux"
-import EmployeeList from "./EmployeeList";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 230,
+    },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
 }));
+
+function inList(all, list){
+    var arr = []
+    for(let i = 0;i < list.length;i++){
+        let x = all.find(x => x.id == list[i]);
+        if(x){
+            arr.push(x);
+        }
+    }
+    return arr;
+}
+
+function available(all, list){
+    var arr = []
+    for(let i = 0;i < all.length;i++){
+        let x = list.find(x => x == all[i].id);
+        if(!x){
+            arr.push(all[i]);
+        }
+    }
+    return arr;
+}
 
 function convert(type){
     var ans = ""
@@ -37,11 +63,13 @@ function convert(type){
 }
 
 function ProjectView(props) {
-    const {addToast} = useToasts;
+    const [status,setStatus] = React.useState("");
+    const {addToast} = useToasts();
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
   
     const handleChange = panel => (event, isExpanded) =>{
+        console.log(props.projectList);
         setExpanded( isExpanded ? panel: false);
     }
 
@@ -69,27 +97,55 @@ function ProjectView(props) {
                             <Typography className={classes.heading}>{record.id+": "+record.name}</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                            <ButtonGroup>
                                 <Grid container>
                                     <Grid item spacing={10}>
                                         <p><strong>Budget:</strong> {record.budget}</p><br></br>
                                         <p><strong>Leader:</strong> {record.leader_id}</p><br></br>
                                         <p><strong>Type:</strong> {convert(record.project_type)}</p><br></br>
                                         <strong>List of employee:</strong>
-                                        <EmployeeList id={record.id}/>
-                                    </Grid>
-                                    <Grid item >
-                                        <Button>
-                                            <EditIcon color="primary" onClick={()=>props.setCurrentId(record.id)}></EditIcon>
-                                        </Button>
-                                        <Button>
-                                            <DeleteIcon color="secondary" onClick={()=>onDelete(record.id)}>
-                                            </DeleteIcon>
-                                        </Button>
+                                        {
+                                            inList(props.employeeList,record.employees_ids).map((other, id)=>{
+                                                return(
+                                                    <p key={id}>{other.id+": "+other.first_name + " " + other.last_name}</p>
+                                                )
+                                            })
+
+                                        }
+                                        <form>
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel id="Type">Type</InputLabel>
+                                            <Select
+                                            name="type"
+                                            labelId="type"
+                                            id="type_select"
+                                            value={status}
+                                            onChange={(event)=>{setStatus(event.target.value)}}
+                                            >
+                                            {
+                                                available(props.employeeList,record.employees_ids).map((other,id) =>{
+                                                    return (
+                                                    <MenuItem key={id} value={other.id}>{other.id+": "+other.first_name+" "+other.last_name}</MenuItem>
+                                                    )
+                                                })
+                                            }
+                                            </Select>
+                                        </FormControl>
+                                        </form>
                                     </Grid>
                                 </Grid>
+
+                            <ButtonGroup>
+                                <Grid item >
+                                    <Button>
+                                        <EditIcon color="primary" onClick={()=>props.setCurrentId(record.id)}></EditIcon>
+                                    </Button>
+                                    <Button>
+                                        <DeleteIcon color="secondary" onClick={()=>onDelete(record.id)}>
+                                        </DeleteIcon>
+                                    </Button>
+                                </Grid>
                             </ButtonGroup>
-                        </ExpansionPanelDetails>
+                            </ExpansionPanelDetails>
                         </ExpansionPanel>
                     )
                 })
@@ -99,6 +155,8 @@ function ProjectView(props) {
 }
 const mapStateToProps = state =>{
     return {
+        employeeList: state.employee.list,
+        projectList: state.project.list
     }
 }
 
@@ -107,3 +165,40 @@ const mapActionToProps = {
 }
 
 export default connect(mapStateToProps,mapActionToProps)(ProjectView);
+
+/*<TableContainer>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>First Name</TableCell>
+                                                    <TableCell>Last Name</TableCell>
+                                                    <TableCell>Salary</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {
+                                                    record.employees_ids.map((record,index) =>{
+                                                        return (
+                                                        <TableRow key={index}>
+                                                            <TableCell>{record.first_name}</TableCell>
+                                                            <TableCell>{record.last_name}</TableCell>
+                                                            <TableCell>{record.salary}</TableCell>
+                                                        </TableRow>
+                                                        )
+                                                    })
+                                                }
+                                                <TableRow>
+                                                    <TableCell>
+
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <AddIcon >
+                                                            <Button onClick={setActive(true)}/>
+                                                        </AddIcon>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                    </Grid>
+                                    */
