@@ -38,7 +38,7 @@ function ProjectForm({classes,...props}) {
         setErrors({
             ...temp
         })
-        return Object.values(temp).every(x => x =="");
+        return Object.values(temp).every(x => x ==="");
     }
     useEffect(() =>{
         props.fetchAllProject()
@@ -46,11 +46,17 @@ function ProjectForm({classes,...props}) {
     },[])
 
     useEffect(()=>{
-        if(props.currentId!= 0){
+        if(props.currentId!== 0){
+            let x = {...props.projectList.find(x => x.id === props.currentId)};
+            const project = {
+                name: x.name,
+                budget: x.budget,
+                type: x.project_type,
+                leader_id: x.leader.id
+            }
             setValues(
-                {...props.projectList.find(x => x.id == props.currentId)}
+                {...project}
             )
-            console.log(props.projectList.find(x => x.id == props.currentId));
             setErrors({})
         }
     }, [props.currentId])
@@ -81,7 +87,8 @@ function ProjectForm({classes,...props}) {
                 props.createProject(values, onSuccess)
             }
             else{
-                props.updateProject(props.currentId,values,onUpdated)
+                values.id = props.currentId;
+                props.updateProject(values,onUpdated)
             }
         }
         
@@ -94,7 +101,7 @@ function ProjectForm({classes,...props}) {
                     variant="outlined"
                     label="name"
                     type="name"
-                    value={values.className}
+                    value={values.name}
                     onChange={handleInputChange}
                     {...(errors.name && {error:true, helperText: errors.name})}
                     />
@@ -163,7 +170,8 @@ function ProjectForm({classes,...props}) {
 const mapStateToProps = state =>{
     return {
         employeeList: state.employee.list,
-        projectList: state.project.list
+        projectList: state.project.list,
+
     }
 }
 

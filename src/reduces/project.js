@@ -1,8 +1,7 @@
 import {ACTION_TYPES} from "../actions/Actions_Types"
 
 const initialState = {
-    list:[],
-    employeeIds: []
+    list:[]
 }
 
 export const project = (state=initialState,action) =>{
@@ -27,20 +26,19 @@ export const project = (state=initialState,action) =>{
                 ...state,
                 list: state.list.filter(x => x.id != action.payload)
             }
-        case ACTION_TYPES.FETCH_ALL_EMPLOYEE_IDS:
-            return {
-                ...state,
-                employeeIds: [...action.payload]
-            }
         case ACTION_TYPES.ADD_EMPLOYE_PROJECT:
+            console.log(action.payload)
+            state.list[action.payload.projectId].employees_ids.push(action.payload.employeeId);
             return {
                 ...state,
-                employeeIds: [...state.employeeIds, action.payload]
+                list: state.list
             }
         case ACTION_TYPES.DELETE_EMPLOYE_PROJECT:
+            console.log(state.list.length);
+            state.list[action.payload.projectId].employees_ids.filter(x => x === action.payload.employeeId);
             return {
                 ...state,
-                employeeIds: state.employeeIds.filter(x => x.id != action.payload)
+                list: state.list
             }
         default:
             return state

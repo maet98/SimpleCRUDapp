@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <ToastProvider autoDismiss={true}>
+        <ToastProvider autoDismiss={true} placement="bottom-left">
         <Container maxWidth="lg">
           <Layout />
           <Sw>

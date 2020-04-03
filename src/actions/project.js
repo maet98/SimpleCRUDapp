@@ -40,9 +40,11 @@ export const create = (data, onSuccess) => dispatch =>{
     .catch(err => console.log(err));
 }
 
-export const update = (id, data, onSuccess) => dispatch =>{
-    api.project().update(id,data)
+export const update = (data, onSuccess) => dispatch =>{
+    api.project().update(data)
     .then(res =>{
+        const id = data.id;
+        delete data.id;
         dispatch({
             type: ACTION_TYPES.UPDATE_PROJECT,
             payload: {id,...data}
@@ -63,24 +65,26 @@ export const Delete = (id, onSuccess) => dispatch =>{
     })
     .catch(err => console.log(err));
 }
-
-export const addEmployee =(projectid, employeeId) => dispatch =>{
-    api.project().addEmployee(projectid,employeeId)
+ 
+export const addEmployee =(projectId, employeeId) => dispatch =>{
+    api.project().addEmployee(projectId,employeeId)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.ADD_EMPLOYEE_PROJECT,
-            payload: employeeId
+            type: ACTION_TYPES.ADD_EMPLOYE_PROJECT,
+            payload: {employeeId, projectId}
         })
     })
     .catch(err => console.log(err));
 }
 
 export const deleteEmployee =(projectid, employeeId) => dispatch =>{
+    console.log(employeeId)
+    console.log(projectid)
     api.project().deleteEmployee(projectid,employeeId)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.DELETE_EMPLOYEE_PROJECT,
-            payload: employeeId
+            type: ACTION_TYPES.DELETE_EMPLOYE_PROJECT,
+            payload: {employeeId,projectid}
         })
     })
     .catch(err => console.log(err));
@@ -90,7 +94,7 @@ export const fetchEmployeeIds =(id) => dispatch =>{
     api.project().fetchById(id)
     .then(res =>{
         dispatch({
-            type: ACTION_TYPES.DELETE_EMPLOYEE_PROJECT,
+            type: ACTION_TYPES.FETCH_ALL_EMPLOYEE_IDS,
             payload: res.employees_ids
         })
     })
