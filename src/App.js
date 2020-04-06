@@ -30,11 +30,10 @@ function App() {
               <ProjectList />
             </Route>
             <Route path="/project/:id">
-              <ProjectView />
             </Route>
             <Route>
               <h1>
-                Not found
+                Home page
               </h1>
             </Route>
           </Sw>

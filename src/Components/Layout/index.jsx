@@ -30,9 +30,11 @@ export default function ButtonAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Project Management
-          </Typography>
+            <Link to="/">
+              <Button className={classes.title}>
+                Project Management
+              </Button>
+            </Link>
           <Link to="/employee">
               <Button color="white">Employee</Button>
           </Link>

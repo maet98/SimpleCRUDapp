@@ -77,7 +77,7 @@ function EmployeeList(props) {
             <Grid container>
                 <Grid item spacing={10}>
                     <p><strong>Budget:</strong> {props.record.budget}</p><br></br>
-                    <p><strong>Leader:</strong> {props.record.leader_id}</p><br></br>
+                    <p><strong>Leader:</strong> {props.record.leader.first_name+" "+props.record.leader.last_name}</p><br></br>
                     <p><strong>Type:</strong> {convert(props.record.project_type)}</p><br></br>
                     <strong>List of employee:</strong><br></br>
                     {
@@ -94,11 +94,11 @@ function EmployeeList(props) {
 
                     }
                     <FormControl className={classes.formControl}>
-                        <InputLabel id="Type">Type</InputLabel>
+                        <InputLabel id="employee">Employee</InputLabel>
                         <Select
-                        name="type"
-                        labelId="type"
-                        id="type_select"
+                        name="employee"
+                        labelId="employee"
+                        id="employee_select"
                         value={status}
                         onChange={(event)=>{setStatus(event.target.value)}}
                         >
